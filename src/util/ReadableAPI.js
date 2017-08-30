@@ -39,23 +39,12 @@ export const createNewPost = (post) =>
     .then(data => data)
 
 export const deletePostById = (id) =>
-
   fetch(`${api}/posts/${id}`, {
     method: 'DELETE',
     headers: {
       ...headers,
       'Content-Type': 'application/json'
-    }}).then(res => {
-      debugger;
-      return res.json()
-    })
-    .then(data => data)
-// export const deletePostById = (id) =>
-//   fetch(`${api}/posts/${id}`, {
-//     method: 'DELETE',
-//     headers
-//   }).then(res => res.json())
-//     .then(data => data)
+    }}).then(res => res)
 
 export const saveEditPost = (post) =>
   fetch(`${api}/posts/${post.id}`, {

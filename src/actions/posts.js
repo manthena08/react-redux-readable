@@ -46,7 +46,7 @@ export function addNewPost(post) {
 export function deletePost(id) {
   return function (dispatch) {
     return ReadableAPI.deletePostById(id)
-      .then(data => dispatch(deletePostSuccess(data)))
+      .then(data => dispatch(deletePostSuccess(id)))
       .catch(error => {
         console.log(error)
         throw(error)
@@ -128,10 +128,10 @@ export function addNewPostSuccess(post) {
   }
 }
 
-export function deletePostSuccess(post) {
+export function deletePostSuccess(id) {
   return {
     type: DELETE_POST,
-    post
+    postId: id
   }
 }
 

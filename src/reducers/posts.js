@@ -33,7 +33,7 @@ export const posts = (state = INITIAL_STATE, action) => {
     case DELETE_POST:
       return {
         ...state,
-        posts: state.posts.filter(post =>  post.deleted === false)
+        posts: state.posts.filter(post => post.id !== action.postId)
       }
     case SAVE_EDITED_POST_SUCCESS:
       return {
