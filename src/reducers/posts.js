@@ -4,7 +4,8 @@ import {
   LOAD_ALL_COMMENTS_BY_POST_ID_SUCCESS,
   ADD_COMMENT_SUCCESS,
   EDIT_COMMENT_SUCCESS,
-  DELETE_COMMENT_SUCCESS } from '../actions/posts'
+  DELETE_COMMENT_SUCCESS,
+  SAVE_EDITED_POST_SUCCESS } from '../actions/posts'
 
 const INITIAL_STATE = {
   activePost: {},
@@ -22,6 +23,11 @@ export const posts = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         activePost: action.activePost
+      }
+    case SAVE_EDITED_POST_SUCCESS:
+      return {
+        ...state,
+        activePost: action.post
       }
     case LOAD_ALL_COMMENTS_BY_POST_ID_SUCCESS:
       return {

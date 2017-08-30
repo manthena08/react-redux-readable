@@ -26,12 +26,25 @@ export const getPostById = (id) =>
     .then(res => res.json())
     .then(data => data)
 
+export const saveEditPost = (post) =>
+  fetch(`${api}/posts/${post.id}`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(post)
+  }).then(res => res.json())
+    .then(data => {
+      return data;
+    })
+
 export const getCommentsByPostId = (id) =>
   fetch(`${api}/posts/${id}/comments`, { headers })
     .then(res => res.json())
     .then(data => data)
 
-export const postComments = (comment) => 
+export const postComments = (comment) =>
   fetch(`${api}/comments`, {
     method: 'POST',
     headers: {
@@ -40,11 +53,11 @@ export const postComments = (comment) =>
     },
     body: JSON.stringify(comment)
   }).then(res => res.json())
-  .then(data => {
-    return data;
-  })
+    .then(data => {
+      return data;
+    })
 
-  export const editComment = (comment) => 
+export const editComment = (comment) =>
   fetch(`${api}/comments/${comment.id}`, {
     method: 'PUT',
     headers: {
@@ -53,12 +66,12 @@ export const postComments = (comment) =>
     },
     body: JSON.stringify(comment)
   }).then(res => res.json())
-  .then(data => {
-    return data;
-  })
+    .then(data => {
+      return data;
+    })
 
 
-export const deleteComment = (id) => 
+export const deleteComment = (id) =>
   fetch(`${api}/comments/${id}`, {
     method: 'DELETE',
     headers
