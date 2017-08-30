@@ -5,6 +5,7 @@ import logo from '../logo.svg';
 import RootPage from './RootPage';
 import CategoryPage from './CategoryPage';
 import PostPage from './PostPage';
+import CreatePostPage from './CreatePostPage'
 
 import { connect } from 'react-redux'
 import { loadPosts } from '../actions/posts'
@@ -32,6 +33,7 @@ class App extends Component {
           )} />
           <Route path="/category/:name" component={CategoryPage} />
           <Route path="/post/:postId" component={PostPage} />
+          <Route path="/create" component={CreatePostPage} />
         </div>
       </div>
     );

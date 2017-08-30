@@ -15,7 +15,7 @@ export const categories = (state = INITIAL_STATE, action) => {
     case LOAD_CATEGORY_POSTS_SUCCESS:
     return {
       ...state,
-      activeCategoryPosts: action.categoryPosts
+      activeCategoryPosts: action.posts.filter(data => data.deleted === false)
 
     }
       

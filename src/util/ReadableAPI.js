@@ -26,6 +26,37 @@ export const getPostById = (id) =>
     .then(res => res.json())
     .then(data => data)
 
+//Create new Post
+export const createNewPost = (post) =>
+  fetch(`${api}/posts`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(post)
+  }).then(res => res.json())
+    .then(data => data)
+
+export const deletePostById = (id) =>
+
+  fetch(`${api}/posts/${id}`, {
+    method: 'DELETE',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    }}).then(res => {
+      debugger;
+      return res.json()
+    })
+    .then(data => data)
+// export const deletePostById = (id) =>
+//   fetch(`${api}/posts/${id}`, {
+//     method: 'DELETE',
+//     headers
+//   }).then(res => res.json())
+//     .then(data => data)
+
 export const saveEditPost = (post) =>
   fetch(`${api}/posts/${post.id}`, {
     method: 'PUT',

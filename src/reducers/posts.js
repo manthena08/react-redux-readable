@@ -1,11 +1,12 @@
-import { 
+import {
   LOAD_POST_SUCCESS,
   LOAD_POST_BY_ID_SUCCESS,
   LOAD_ALL_COMMENTS_BY_POST_ID_SUCCESS,
   ADD_COMMENT_SUCCESS,
   EDIT_COMMENT_SUCCESS,
   DELETE_COMMENT_SUCCESS,
-  SAVE_EDITED_POST_SUCCESS } from '../actions/posts'
+  SAVE_EDITED_POST_SUCCESS, ADD_NEW_POST, DELETE_POST
+} from '../actions/posts'
 
 const INITIAL_STATE = {
   activePost: {},
@@ -17,12 +18,22 @@ export const posts = (state = INITIAL_STATE, action) => {
     case LOAD_POST_SUCCESS:
       return {
         ...state,
-        posts: action.posts
+        posts: action.posts.filter(data => data.deleted === false)
       }
     case LOAD_POST_BY_ID_SUCCESS:
       return {
         ...state,
         activePost: action.activePost
+      }
+    case ADD_NEW_POST:
+      return {
+        ...state,
+        posts: state.posts.concat([action.post])
+      }
+    case DELETE_POST:
+      return {
+        ...state,
+        posts: state.posts.filter(post =>  post.deleted === false)
       }
     case SAVE_EDITED_POST_SUCCESS:
       return {
@@ -43,7 +54,7 @@ export const posts = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         comments: state.comments.map(comment => comment.id == action.comment.id ? comment = action.comment : comment)
-    }
+      }
     case DELETE_COMMENT_SUCCESS:
       return {
         ...state,

@@ -9,7 +9,7 @@ import MdEdit from 'react-icons/lib/md/edit'
 import MdDelete from 'react-icons/lib/md/delete'
 import SingleComment from './SingleComment'
 
-import { loadPostById, loadAllCommentsByPostId, addComment, deleteComment, editComment,saveEditedPost } from '../actions/posts'
+import { loadPostById, loadAllCommentsByPostId, addComment, deleteComment, editComment,saveEditedPost,deletePost } from '../actions/posts'
 
 import { Card, Button, Modal, Input, TextArea, Form, Segment, Divider } from 'semantic-ui-react'
 
@@ -57,6 +57,8 @@ class PostPage extends Component {
 
   deletePost = () => {
     console.log("dle6e function called")
+    this.props.deletePostDispatch(this.props.post.id)
+    this.props.history.push('/')
   }
 
   openEditModal = (id) => {
@@ -209,6 +211,9 @@ const mapDispatchToProps = dispatch => {
     },
     saveEditedPostDispatch: (post) => {
       dispatch(saveEditedPost(post))
+    },
+    deletePostDispatch : (id) => {
+      dispatch(deletePost(id))
     },
     addCommentDispatch: (comment) => {
       dispatch(addComment(comment))

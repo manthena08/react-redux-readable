@@ -8,6 +8,8 @@ export const LOAD_ALL_COMMENTS_BY_POST_ID_SUCCESS = 'LOAD_ALL_COMMENTS_BY_POST_I
 export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS'
 export const DELETE_COMMENT_SUCCESS = 'DELETE_COMMENT_SUCCESS'
 export const EDIT_COMMENT_SUCCESS = 'EDIT_COMMENT_SUCCESS'
+export const ADD_NEW_POST = 'ADD_NEW_POST';
+export const DELETE_POST = 'DELETE_POST'
 
 export function loadPosts() {
   return function (dispatch) {
@@ -31,6 +33,26 @@ export function loadPostById(postId) {
   }
 }
 
+export function addNewPost(post) {
+  return function (dispatch) {
+    return ReadableAPI.createNewPost(post)
+      .then(data => dispatch(addNewPostSuccess(data)))
+      .catch(error => {
+        throw(error)
+      })
+  }
+}
+
+export function deletePost(id) {
+  return function (dispatch) {
+    return ReadableAPI.deletePostById(id)
+      .then(data => dispatch(deletePostSuccess(data)))
+      .catch(error => {
+        console.log(error)
+        throw(error)
+      })
+  }
+}
 
 export function saveEditedPost(post) {
   return function (dispatch) {
@@ -96,6 +118,19 @@ export function loadPostSuccess(posts) {
 export function saveEditedPostSuccess(post) {
   return {
     type: SAVE_EDITED_POST_SUCCESS,
+    post
+  }
+}
+export function addNewPostSuccess(post) {
+  return {
+    type: ADD_NEW_POST,
+    post
+  }
+}
+
+export function deletePostSuccess(post) {
+  return {
+    type: DELETE_POST,
     post
   }
 }

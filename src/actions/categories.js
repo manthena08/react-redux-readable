@@ -32,9 +32,9 @@ export function loadCategoryPosts(categoryName) {
 }
 
 
-export function loadCategortyPostsSuccess(post) {
+export function loadCategortyPostsSuccess(posts) {
   return {
     type: LOAD_CATEGORY_POSTS_SUCCESS,
-    categoryPosts: post
+    posts
   }
 }
