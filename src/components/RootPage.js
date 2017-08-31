@@ -17,7 +17,7 @@ class RootPage extends Component {
   render() {
     let { categories, posts } = this.props;
 
-    // posts.sort(sortBy(this.state.postOrder))
+    posts.sort(sortBy(this.state.postOrder))
     return (
       <div>
         <div className="main-categories-section">

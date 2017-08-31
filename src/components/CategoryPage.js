@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import * as ReadableAPI from '../util/ReadableAPI'
 import { connect } from 'react-redux'
 import {loadCategoryPosts} from '../actions/categories'
 class CategoryPage extends Component {

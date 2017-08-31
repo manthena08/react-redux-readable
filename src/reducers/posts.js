@@ -5,7 +5,7 @@ import {
   ADD_COMMENT_SUCCESS,
   EDIT_COMMENT_SUCCESS,
   DELETE_COMMENT_SUCCESS,
-  SAVE_EDITED_POST_SUCCESS, ADD_NEW_POST, DELETE_POST
+  SAVE_EDITED_POST_SUCCESS, ADD_NEW_POST, DELETE_POST, VOTE_SCORE, COMMENT_VOTE_SCORE
 } from '../actions/posts'
 
 const INITIAL_STATE = {
@@ -30,6 +30,19 @@ export const posts = (state = INITIAL_STATE, action) => {
         ...state,
         posts: state.posts.concat([action.post])
       }
+    case VOTE_SCORE:
+    return {
+      ...state,
+      activePost: {
+        ...action.post,
+        voteScore: action.score
+      }
+    }
+    case COMMENT_VOTE_SCORE:
+    return {
+      ...state,
+      comments: state.comments.map((data) => data.id === action.comment.id ?  action.comment : data)
+    }
     case DELETE_POST:
       return {
         ...state,
@@ -53,7 +66,7 @@ export const posts = (state = INITIAL_STATE, action) => {
     case EDIT_COMMENT_SUCCESS:
       return {
         ...state,
-        comments: state.comments.map(comment => comment.id == action.comment.id ? comment = action.comment : comment)
+        comments: state.comments.map(comment => comment.id === action.comment.id ? comment = action.comment : comment)
       }
     case DELETE_COMMENT_SUCCESS:
       return {

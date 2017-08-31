@@ -10,6 +10,9 @@ export const DELETE_COMMENT_SUCCESS = 'DELETE_COMMENT_SUCCESS'
 export const EDIT_COMMENT_SUCCESS = 'EDIT_COMMENT_SUCCESS'
 export const ADD_NEW_POST = 'ADD_NEW_POST';
 export const DELETE_POST = 'DELETE_POST'
+export const VOTE_SCORE = 'VOTE_SCORE';
+export const COMMENT_VOTE_SCORE = 'COMMENT_VOTE_SCORE'
+
 
 export function loadPosts() {
   return function (dispatch) {
@@ -65,7 +68,30 @@ export function saveEditedPost(post) {
   }
 }
 
+export function voteScore(post,option) {
+  return function (dispatch) { 
+    return ReadableAPI.callPostVoteScore(post.id,option)
+      .then(data => {
+        const score = option === 'upVote' ? post.voteScore + 1 : post.voteScore - 1
+        dispatch(voteScoreSuccess(post,score))
+      }).catch(error => {
+        throw (error)
+      })
+  }
+}
 
+export function commentVoteScore(comment,option) {
+  return function (dispatch) { 
+    return ReadableAPI.callCommentVoteScore(comment.id,option)
+      .then(data => {
+        const score = option === 'upVote' ? comment.voteScore + 1 : comment.voteScore - 1
+        comment.voteScore = score
+        dispatch(commentVoteScoreSuccess(comment))
+      }).catch(error => {
+        throw (error)
+      })
+  }
+}
 // comments
 export function loadAllCommentsByPostId(postId) {
   return function (dispatch) {
@@ -125,6 +151,21 @@ export function addNewPostSuccess(post) {
   return {
     type: ADD_NEW_POST,
     post
+  }
+}
+
+export function voteScoreSuccess(post,score) {
+  return {
+    type: VOTE_SCORE,
+    post,
+    score
+  }
+}
+
+export function commentVoteScoreSuccess(comment,score) {
+  return {
+    type: COMMENT_VOTE_SCORE,
+    comment
   }
 }
 

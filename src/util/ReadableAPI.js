@@ -26,6 +26,18 @@ export const getPostById = (id) =>
     .then(res => res.json())
     .then(data => data)
 
+//Vote for post
+export const callPostVoteScore = (id, option) =>
+  fetch(`${api}/posts/${id}`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ option })
+  }).then(res => res)
+
+
 //Create new Post
 export const createNewPost = (post) =>
   fetch(`${api}/posts`, {
@@ -44,7 +56,8 @@ export const deletePostById = (id) =>
     headers: {
       ...headers,
       'Content-Type': 'application/json'
-    }}).then(res => res)
+    }
+  }).then(res => res)
 
 export const saveEditPost = (post) =>
   fetch(`${api}/posts/${post.id}`, {
@@ -97,3 +110,13 @@ export const deleteComment = (id) =>
     headers
   }).then(res => res.json())
     .then(data => data)
+
+export const callCommentVoteScore = (id, option) =>
+  fetch(`${api}/comments/${id}`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ option })
+  }).then(res => res)

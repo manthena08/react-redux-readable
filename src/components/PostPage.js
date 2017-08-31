@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import * as ReadableAPI from '../util/ReadableAPI'
 import Moment from 'react-moment'
 import sortBy from 'sort-by'
 import serializeForm from 'form-serialize'
@@ -8,10 +7,12 @@ import * as uuid from 'react-native-uuid'
 import MdEdit from 'react-icons/lib/md/edit'
 import MdDelete from 'react-icons/lib/md/delete'
 import SingleComment from './SingleComment'
+import VoteScore from './VoteScore'
 
-import { loadPostById, loadAllCommentsByPostId, addComment, deleteComment, editComment,saveEditedPost,deletePost } from '../actions/posts'
+import { loadPostById, loadAllCommentsByPostId, addComment,
+       deleteComment, editComment,saveEditedPost,deletePost, voteScore } from '../actions/posts'
 
-import { Card, Button, Modal, Input, TextArea, Form, Segment, Divider } from 'semantic-ui-react'
+import { Button, Modal, Input, TextArea, Form, Segment, Divider, Icon } from 'semantic-ui-react'
 
 class PostPage extends Component {
   state = {
@@ -102,6 +103,10 @@ class PostPage extends Component {
     })
   }
 
+  handleVoteScore = (id,vote) =>{
+    this.props.changeVoteScoreDispatch(this.props.post, vote)
+  }
+
 
 
 
@@ -118,7 +123,12 @@ class PostPage extends Component {
           <p>{post.author}</p>
           <p>{post.body}</p>
           <Moment format="MMM DD YYYY">{post.timestamp}</Moment>
-          <h5>{post.voteScore}</h5>
+          <h5>
+            {/* <Button onClick={() => this.handleVoteScore('upVote')}><Icon name='thumbs outline up' /></Button>
+            {post.voteScore}
+            <Button onClick={() => this.handleVoteScore('downVote')}><Icon name='thumbs outline down' /></Button> */}
+            <VoteScore handleVoteScore={this.handleVoteScore} postId={post.id} score={post.voteScore}></VoteScore>
+          </h5>
           <div className='ui two buttons'>
             <Button basic color='green' onClick={this.openEditPostModal}><MdEdit size={30} /></Button>
             <Button basic color='red' onClick={this.deletePost}><MdDelete size={30} /></Button>
@@ -137,8 +147,9 @@ class PostPage extends Component {
               <button type="submit" > Comment</button>
               <button type="button" onClick={this.clearAddCommentForm}> Clear</button>
             </form>
-            {comments.length > 0 && comments.map((comment) => (
-              <SingleComment key={comment.id} comment={comment} openEditModal={this.openEditModal} deleteCommentHandler={this.deleteCommentHandler}></SingleComment>
+            {comments.length > 0 && comments.map((comment, index) => (
+              <SingleComment key={index} commentId={comment.id} openEditModal={this.openEditModal} 
+                deleteCommentHandler={this.deleteCommentHandler} handleVoteScore= {this.changeCommentScoreDispatch}></SingleComment>
             ))}
           </div>
           <Divider section />
@@ -211,6 +222,9 @@ const mapDispatchToProps = dispatch => {
     },
     saveEditedPostDispatch: (post) => {
       dispatch(saveEditedPost(post))
+    },
+    changeVoteScoreDispatch: (post, option) => {
+      dispatch(voteScore(post, option))
     },
     deletePostDispatch : (id) => {
       dispatch(deletePost(id))
