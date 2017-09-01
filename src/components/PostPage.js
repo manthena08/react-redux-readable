@@ -16,7 +16,7 @@ import { Button, Modal, Input, TextArea, Form, Segment, Divider, Icon } from 'se
 
 class PostPage extends Component {
   state = {
-    commentOrder: 'voteScore',
+    commentOrder: '-voteScore',
     commentEditModelOpen: false,
     postEditModelOpen: false,
     activeComment: {},
@@ -107,9 +107,6 @@ class PostPage extends Component {
     this.props.changeVoteScoreDispatch(this.props.post, vote)
   }
 
-
-
-
   render() {
 
     let { post, comments } = this.props
@@ -124,9 +121,6 @@ class PostPage extends Component {
           <p>{post.body}</p>
           <Moment format="MMM DD YYYY">{post.timestamp}</Moment>
           <h5>
-            {/* <Button onClick={() => this.handleVoteScore('upVote')}><Icon name='thumbs outline up' /></Button>
-            {post.voteScore}
-            <Button onClick={() => this.handleVoteScore('downVote')}><Icon name='thumbs outline down' /></Button> */}
             <VoteScore handleVoteScore={this.handleVoteScore} postId={post.id} score={post.voteScore}></VoteScore>
           </h5>
           <div className='ui two buttons'>
@@ -138,7 +132,7 @@ class PostPage extends Component {
           <div className="comment-section">
             <h3>Comment </h3>
             <select value={this.state.commentOrder} onChange={(event) => this.onOrderChange(event)}>
-              <option value="timestamp">Date</option>
+              <option value="-timestamp">Date</option>
               <option value="-voteScore">Score</option>
             </select>
             <form onSubmit={this.submitHandler}>
