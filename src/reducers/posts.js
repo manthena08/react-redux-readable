@@ -31,18 +31,24 @@ export const posts = (state = INITIAL_STATE, action) => {
         posts: state.posts.concat([action.post])
       }
     case VOTE_SCORE:
-    return {
-      ...state,
-      activePost: {
-        ...action.post,
-        voteScore: action.score
+      return {
+        ...state,
+        posts: state.posts.map(data => {
+          if (data.id === action.post.id) {
+            data.voteScore = action.score
+          }
+          return data
+        }),
+        activePost: {
+          ...action.post,
+          voteScore: action.score
+        }
       }
-    }
     case COMMENT_VOTE_SCORE:
-    return {
-      ...state,
-      comments: state.comments.map((data) => data.id === action.comment.id ?  action.comment : data)
-    }
+      return {
+        ...state,
+        comments: state.comments.map((data) => data.id === action.comment.id ? action.comment : data)
+      }
     case DELETE_POST:
       return {
         ...state,

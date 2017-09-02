@@ -11,9 +11,9 @@ class VoteScore extends Component {
   render() {
     return (
       <div>
-        <Button onClick={() => this.changeVoteScore('upVote')}><Icon name='thumbs outline up' /></Button>
+        <Icon color="green" name='thumbs outline up' onClick={() => this.changeVoteScore('upVote')}/>
         <span>{this.props.score}</span>
-        <Button onClick={() => this.changeVoteScore('downVote')}><Icon name='thumbs outline down' /></Button>
+        <Icon color="red" name='thumbs outline down' onClick={() => this.changeVoteScore('downVote')}/>
       </div>
     )
   }
