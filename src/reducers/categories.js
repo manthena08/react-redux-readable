@@ -1,4 +1,4 @@
-import { LOAD_CATEGORIES_SUCCESS,LOAD_CATEGORY_POSTS_SUCCESS } from '../actions/categories'
+import { LOAD_CATEGORIES_SUCCESS,LOAD_CATEGORY_POSTS_SUCCESS } from '../actions/actionTypes'
 
 const INITIAL_STATE = {
   categoriesList: [],

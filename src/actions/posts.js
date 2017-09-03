@@ -1,18 +1,5 @@
 import * as ReadableAPI from '../util/ReadableAPI'
-
-export const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS'
-export const LOAD_POST_BY_ID_SUCCESS = 'LOAD_POST_BY_ID_SUCCESS'
-export const SAVE_EDITED_POST_SUCCESS = 'SAVE_EDITED_POST_SUCCESS'
-//comments
-export const LOAD_ALL_COMMENTS_BY_POST_ID_SUCCESS = 'LOAD_ALL_COMMENTS_BY_POST_ID_SUCCESS'
-export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS'
-export const DELETE_COMMENT_SUCCESS = 'DELETE_COMMENT_SUCCESS'
-export const EDIT_COMMENT_SUCCESS = 'EDIT_COMMENT_SUCCESS'
-export const ADD_NEW_POST = 'ADD_NEW_POST';
-export const DELETE_POST = 'DELETE_POST'
-export const VOTE_SCORE = 'VOTE_SCORE';
-export const COMMENT_VOTE_SCORE = 'COMMENT_VOTE_SCORE'
-
+import * as types from './actionTypes'
 
 export function loadPosts() {
   return function (dispatch) {
@@ -41,7 +28,7 @@ export function addNewPost(post) {
     return ReadableAPI.createNewPost(post)
       .then(data => dispatch(addNewPostSuccess(data)))
       .catch(error => {
-        throw(error)
+        throw (error)
       })
   }
 }
@@ -52,7 +39,7 @@ export function deletePost(id) {
       .then(data => dispatch(deletePostSuccess(id)))
       .catch(error => {
         console.log(error)
-        throw(error)
+        throw (error)
       })
   }
 }
@@ -68,21 +55,21 @@ export function saveEditedPost(post) {
   }
 }
 
-export function voteScore(post,option) {
-  return function (dispatch) { 
-    return ReadableAPI.callPostVoteScore(post.id,option)
+export function voteScore(post, option) {
+  return function (dispatch) {
+    return ReadableAPI.callPostVoteScore(post.id, option)
       .then(data => {
         const score = option === 'upVote' ? post.voteScore + 1 : post.voteScore - 1
-        dispatch(voteScoreSuccess(post,score))
+        dispatch(voteScoreSuccess(post, score))
       }).catch(error => {
         throw (error)
       })
   }
 }
 
-export function commentVoteScore(comment,option) {
-  return function (dispatch) { 
-    return ReadableAPI.callCommentVoteScore(comment.id,option)
+export function commentVoteScore(comment, option) {
+  return function (dispatch) {
+    return ReadableAPI.callCommentVoteScore(comment.id, option)
       .then(data => {
         const score = option === 'upVote' ? comment.voteScore + 1 : comment.voteScore - 1
         comment.voteScore = score
@@ -122,56 +109,56 @@ export function editComment(comment) {
 export function deleteComment(id) {
   return function (dispatch) {
     return ReadableAPI.deleteComment(id)
-    .then((data) => {
-      dispatch(deleteCommentSuccess(data))
-    })
+      .then((data) => {
+        dispatch(deleteCommentSuccess(data))
+      })
   }
 }
 
 export function loadPostByIdSuccess(post) {
   return {
-    type: LOAD_POST_BY_ID_SUCCESS,
+    type: types.LOAD_POST_BY_ID_SUCCESS,
     activePost: post
   }
 }
 
 export function loadPostSuccess(posts) {
   return {
-    type: LOAD_POST_SUCCESS,
+    type: types.LOAD_POST_SUCCESS,
     posts
   }
 }
 export function saveEditedPostSuccess(post) {
   return {
-    type: SAVE_EDITED_POST_SUCCESS,
+    type: types.SAVE_EDITED_POST_SUCCESS,
     post
   }
 }
 export function addNewPostSuccess(post) {
   return {
-    type: ADD_NEW_POST,
+    type: types.ADD_NEW_POST,
     post
   }
 }
 
-export function voteScoreSuccess(post,score) {
+export function voteScoreSuccess(post, score) {
   return {
-    type: VOTE_SCORE,
+    type: types.VOTE_SCORE,
     post,
     score
   }
 }
 
-export function commentVoteScoreSuccess(comment,score) {
+export function commentVoteScoreSuccess(comment, score) {
   return {
-    type: COMMENT_VOTE_SCORE,
+    type: types.COMMENT_VOTE_SCORE,
     comment
   }
 }
 
 export function deletePostSuccess(id) {
   return {
-    type: DELETE_POST,
+    type: types.DELETE_POST,
     postId: id
   }
 }
@@ -179,28 +166,28 @@ export function deletePostSuccess(id) {
 // comments
 export function loadAllCommentsByPostIdSuccess(comments) {
   return {
-    type: LOAD_ALL_COMMENTS_BY_POST_ID_SUCCESS,
+    type: types.LOAD_ALL_COMMENTS_BY_POST_ID_SUCCESS,
     comments
   }
 }
 
-export function addCommentSuccess(comment){
+export function addCommentSuccess(comment) {
   return {
-    type: ADD_COMMENT_SUCCESS,
+    type: types.ADD_COMMENT_SUCCESS,
     comment
   }
 }
 
 export function editCommentSuccess(comment) {
   return {
-    type: EDIT_COMMENT_SUCCESS,
+    type: types.EDIT_COMMENT_SUCCESS,
     comment
   }
 }
 
 export function deleteCommentSuccess(comment) {
   return {
-    type: DELETE_COMMENT_SUCCESS,
+    type: types.DELETE_COMMENT_SUCCESS,
     comment
   }
 }

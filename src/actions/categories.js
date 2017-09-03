@@ -1,6 +1,5 @@
 import * as ReadableAPI from '../util/ReadableAPI'
-export const LOAD_CATEGORIES_SUCCESS = 'LOAD_CATEGORIES_SUCCESS'
-export const LOAD_CATEGORY_POSTS_SUCCESS = 'LOAD_CATEGORY_POSTS_SUCCESS'
+import * as types from './actionTypes'
 
 export function loadCategories() {
   return function (dispatch) {
@@ -15,7 +14,7 @@ export function loadCategories() {
 
 export function loadCategoriesSuccess(categories) {
   return {
-    type: LOAD_CATEGORIES_SUCCESS,
+    type: types.LOAD_CATEGORIES_SUCCESS,
     categories
   }
 }
@@ -34,7 +33,7 @@ export function loadCategoryPosts(categoryName) {
 
 export function loadCategortyPostsSuccess(posts) {
   return {
-    type: LOAD_CATEGORY_POSTS_SUCCESS,
+    type: types.LOAD_CATEGORY_POSTS_SUCCESS,
     posts
   }
 }

@@ -6,7 +6,7 @@ import {
   EDIT_COMMENT_SUCCESS,
   DELETE_COMMENT_SUCCESS,
   SAVE_EDITED_POST_SUCCESS, ADD_NEW_POST, DELETE_POST, VOTE_SCORE, COMMENT_VOTE_SCORE
-} from '../actions/posts'
+} from '../actions/actionTypes'
 
 const INITIAL_STATE = {
   activePost: {},
