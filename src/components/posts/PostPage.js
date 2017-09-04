@@ -6,13 +6,15 @@ import { connect } from 'react-redux'
 import * as uuid from 'react-native-uuid'
 import MdEdit from 'react-icons/lib/md/edit'
 import MdDelete from 'react-icons/lib/md/delete'
-import SingleComment from './SingleComment'
-import VoteScore from './VoteScore'
+import SingleComment from '../common/SingleComment'
+import VoteScore from '../common/VoteScore'
 
-import { loadPostById, loadAllCommentsByPostId, addComment,
-       deleteComment, editComment,saveEditedPost,deletePost, voteScore } from '../actions/posts'
+import {
+  loadPostById, loadAllCommentsByPostId, addComment,
+  deleteComment, editComment, saveEditedPost, deletePost, voteScore
+} from '../../actions/posts'
 
-import { Button, Modal, Input, TextArea, Form, Segment, Divider, Icon } from 'semantic-ui-react'
+import { Button, Modal, Input, TextArea, Form, Segment, Divider, Icon, Container } from 'semantic-ui-react'
 
 class PostPage extends Component {
   state = {
@@ -81,7 +83,7 @@ class PostPage extends Component {
     }))
   }
   closeCommentModal = () => this.setState(() => ({ commentEditModelOpen: false, activeEditCommentId: '' }))
-  closeEditPostModal = () => this.setState(() => ({postEditModelOpen: false}))
+  closeEditPostModal = () => this.setState(() => ({ postEditModelOpen: false }))
   saveEditComment = () => {
     let editComment = this.state.activeComment;
     editComment.author = this.state.editCommentModalName;
@@ -103,7 +105,7 @@ class PostPage extends Component {
     })
   }
 
-  handleVoteScore = (id,vote) =>{
+  handleVoteScore = (id, vote) => {
     this.props.changeVoteScoreDispatch(this.props.post, vote)
   }
 
@@ -114,6 +116,7 @@ class PostPage extends Component {
 
     return (
       <div>
+        <Container>
         <h2>Post Page</h2>
         <div className="card">
           <h3>{post.title}</h3>
@@ -142,13 +145,12 @@ class PostPage extends Component {
               <button type="button" onClick={this.clearAddCommentForm}> Clear</button>
             </form>
             {comments.length > 0 && comments.map((comment, index) => (
-              <SingleComment key={index} commentId={comment.id} openEditModal={this.openEditModal} 
-                deleteCommentHandler={this.deleteCommentHandler} handleVoteScore= {this.changeCommentScoreDispatch}></SingleComment>
+              <SingleComment key={index} commentId={comment.id} openEditModal={this.openEditModal}
+                deleteCommentHandler={this.deleteCommentHandler} handleVoteScore={this.changeCommentScoreDispatch}></SingleComment>
             ))}
           </div>
-          <Divider section />
         </Segment>
-
+        </Container>
         <Modal size="small" open={this.state.commentEditModelOpen} onClose={this.closeCommentModal}>
           <Modal.Header>EDIT Comment</Modal.Header>
           <Modal.Content>
@@ -220,7 +222,7 @@ const mapDispatchToProps = dispatch => {
     changeVoteScoreDispatch: (post, option) => {
       dispatch(voteScore(post, option))
     },
-    deletePostDispatch : (id) => {
+    deletePostDispatch: (id) => {
       dispatch(deletePost(id))
     },
     addCommentDispatch: (comment) => {

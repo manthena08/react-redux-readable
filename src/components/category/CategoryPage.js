@@ -1,6 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import {loadCategoryPosts} from '../actions/categories'
+import { Container } from 'semantic-ui-react'
+import { loadCategoryPosts } from '../../actions/categories'
+import SinglePost from '../posts/SinglePost'
 class CategoryPage extends Component {
 
   componentDidMount() {
@@ -9,16 +11,15 @@ class CategoryPage extends Component {
   }
   render() {
     let categoryName = this.props.match.params.name
-    let {activeCategoryPosts} = this.props
+    let { activeCategoryPosts } = this.props
     return (
-      <div> {categoryName} Category Page
+      <div>
+        <Container>
+          <h1>{categoryName.toUpperCase()} Category Page</h1>
           {activeCategoryPosts.length > 0 && activeCategoryPosts.map((post) => (
-            <div key={post.id}>
-              <div>{post.title}</div>
-              <div>{post.voteScore}</div>
-              <div>{post.category}</div>
-            </div>
-          )) }
+            <SinglePost key={post.id} post={post} changeVoteScoreDispatch={this.props.changeVoteScoreDispatch} />
+          ))}
+        </Container>
       </div>
     )
   }
@@ -38,5 +39,5 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(CategoryPage)
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryPage)
 

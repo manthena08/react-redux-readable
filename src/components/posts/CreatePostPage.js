@@ -4,7 +4,9 @@ import * as uuid from 'react-native-uuid'
 import serializeForm from 'form-serialize'
 import { connect } from 'react-redux'
 import { Button, Input, TextArea, Form } from 'semantic-ui-react'
-import { addNewPost } from '../actions/posts'
+import { addNewPost } from '../../actions/posts'
+
+
 class CreatePostPage extends Component {
   state = {}
 

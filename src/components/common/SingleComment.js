@@ -5,7 +5,7 @@ import MdDelete from 'react-icons/lib/md/delete'
 import { connect } from 'react-redux'
 import { Card, Button, Icon } from 'semantic-ui-react'
 import VoteScore from './VoteScore'
-import { commentVoteScore } from '../actions/posts'
+import { commentVoteScore } from '../../actions/posts'
 
 class SingleComment extends Component {
 

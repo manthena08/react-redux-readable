@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment'
 import { Icon, Card } from 'semantic-ui-react'
-import VoteScore from './VoteScore'
+import VoteScore from '../common/VoteScore'
 
 class SinglePost extends Component {
   handleVoteScore = (id, vote) => {

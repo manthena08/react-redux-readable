@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Route, withRouter } from 'react-router-dom'
 import logo from '../logo.svg';
 
-import RootPage from './RootPage';
-import CategoryPage from './CategoryPage';
-import PostPage from './PostPage';
-import CreatePostPage from './CreatePostPage'
+import RootPage from './home/RootPage';
+import CategoryPage from './category/CategoryPage';
+import PostPage from './posts/PostPage';
+import CreatePostPage from './posts/CreatePostPage'
 
 
 class App extends Component {
