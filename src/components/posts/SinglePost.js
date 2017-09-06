@@ -8,11 +8,11 @@ class SinglePost extends Component {
   handleVoteScore = (id, vote) => {
     this.props.changeVoteScoreDispatch(this.props.post, vote)
   }
-  ComponentDidMount = () => {
-    this.props.commentCount(this.props.post.id)
+  componentDidMount() {
+    this.props.loadCurrentComments(this.props.post.id)
   }
   render() {
-    let { post } = this.props
+    let { post,comments } = this.props
     return (
       <Card fluid>
         <Card.Content>
@@ -24,9 +24,12 @@ class SinglePost extends Component {
           </Card.Description>
         </Card.Content>
         <Card.Content>
-        <Card.Meta>
+          <Card.Meta>
             <VoteScore handleVoteScore={this.handleVoteScore} postId={post.id} score={post.voteScore}></VoteScore>
           </Card.Meta>
+        </Card.Content>
+        <Card.Content extra>
+            {comments ? comments.length : 0} comments
         </Card.Content>
       </Card>
     )

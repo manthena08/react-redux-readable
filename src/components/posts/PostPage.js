@@ -11,7 +11,7 @@ import VoteScore from '../common/VoteScore'
 
 import {
   loadPostById, loadAllCommentsByPostId, addComment,
-  deleteComment, editComment, saveEditedPost, deletePost, voteScore
+  deleteComment, editComment, saveEditedPost, deletePost, voteScore, commentVoteScore
 } from '../../actions/posts'
 
 import { Button, Modal, Input, TextArea, Form, Segment, Divider, Icon, Container } from 'semantic-ui-react'
@@ -36,8 +36,9 @@ class PostPage extends Component {
 
   submitHandler = (e) => {
     e.preventDefault();
+    debugger;
     const value = serializeForm(e.target, { hash: true });
-    value.parentId = this.props.post.id;
+    value.parentId = this.props.match.params.postId;
     value.timestamp = Date.now();
     value.voteScore = 1;
     value.id = uuid.v1();
@@ -59,7 +60,6 @@ class PostPage extends Component {
   }
 
   deletePost = () => {
-    console.log("dle6e function called")
     this.props.deletePostDispatch(this.props.post.id)
     this.props.history.push('/')
   }
@@ -108,48 +108,49 @@ class PostPage extends Component {
   handleVoteScore = (id, vote) => {
     this.props.changeVoteScoreDispatch(this.props.post, vote)
   }
-
   render() {
 
     let { post, comments } = this.props
-    comments.sort(sortBy(this.state.commentOrder))
+    if(comments && comments.length > 0) {
+      comments.sort(sortBy(this.state.commentOrder))
+    }
 
     return (
       <div>
         <Container>
-        <h2>Post Page</h2>
-        <div className="card">
-          <h3>{post.title}</h3>
-          <p>{post.author}</p>
-          <p>{post.body}</p>
-          <Moment format="MMM DD YYYY">{post.timestamp}</Moment>
-          <h5>
-            <VoteScore handleVoteScore={this.handleVoteScore} postId={post.id} score={post.voteScore}></VoteScore>
-          </h5>
-          <div className='ui two buttons'>
-            <Button basic color='green' onClick={this.openEditPostModal}><MdEdit size={30} /></Button>
-            <Button basic color='red' onClick={this.deletePost}><MdDelete size={30} /></Button>
+          <h2>Post Page</h2>
+          <div className="card">
+            <h3>{post.title}</h3>
+            <p>{post.author}</p>
+            <p>{post.body}</p>
+            <Moment format="MMM DD YYYY">{post.timestamp}</Moment>
+            <h5>
+              <VoteScore handleVoteScore={this.handleVoteScore} postId={post.id} score={post.voteScore}></VoteScore>
+            </h5>
+            <div className='ui two buttons'>
+              <Button basic color='green' onClick={this.openEditPostModal}><MdEdit size={30} /></Button>
+              <Button basic color='red' onClick={this.deletePost}><MdDelete size={30} /></Button>
+            </div>
           </div>
-        </div>
-        <Segment>
-          <div className="comment-section">
-            <h3>Comment </h3>
-            <select value={this.state.commentOrder} onChange={(event) => this.onOrderChange(event)}>
-              <option value="-timestamp">Date</option>
-              <option value="-voteScore">Score</option>
-            </select>
-            <form onSubmit={this.submitHandler}>
-              <input type="text" name="author" placeholder="comment-name" ref={(input) => this.addAuthor = input} />
-              <textarea name="body" ref={(input) => this.addBody = input}></textarea>
-              <button type="submit" > Comment</button>
-              <button type="button" onClick={this.clearAddCommentForm}> Clear</button>
-            </form>
-            {comments.length > 0 && comments.map((comment, index) => (
-              <SingleComment key={index} commentId={comment.id} openEditModal={this.openEditModal}
-                deleteCommentHandler={this.deleteCommentHandler} handleVoteScore={this.changeCommentScoreDispatch}></SingleComment>
-            ))}
-          </div>
-        </Segment>
+          <Segment>
+            <div className="comment-section">
+              <h3>Comment </h3>
+              <select value={this.state.commentOrder} onChange={(event) => this.onOrderChange(event)}>
+                <option value="-timestamp">Date</option>
+                <option value="-voteScore">Score</option>
+              </select>
+              <form onSubmit={this.submitHandler}>
+                <input type="text" name="author" placeholder="comment-name" ref={(input) => this.addAuthor = input} />
+                <textarea name="body" ref={(input) => this.addBody = input}></textarea>
+                <button type="submit" > Comment</button>
+                <button type="button" onClick={this.clearAddCommentForm}> Clear</button>
+              </form>
+              {comments && comments.length > 0 && comments.map((comment) => (
+                    <SingleComment key={comment.id} comment={comment} openEditModal={this.openEditModal}
+                    deleteCommentHandler={this.deleteCommentHandler} triggerCommentVoteScore={this.changeCommentScoreDispatch} />
+              ))}
+            </div>
+          </Segment>
         </Container>
         <Modal size="small" open={this.state.commentEditModelOpen} onClose={this.closeCommentModal}>
           <Modal.Header>EDIT Comment</Modal.Header>
@@ -204,8 +205,8 @@ class PostPage extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     post: state.posts.activePost,
-    comments: state.posts.comments
-  }
+    comments: state.posts.comments[ownProps.match.params.postId]
+  } 
 }
 
 const mapDispatchToProps = dispatch => {
@@ -221,6 +222,9 @@ const mapDispatchToProps = dispatch => {
     },
     changeVoteScoreDispatch: (post, option) => {
       dispatch(voteScore(post, option))
+    },
+    changeCommentScoreDispatch: (comment, status) => {
+      dispatch(commentVoteScore(comment, status))
     },
     deletePostDispatch: (id) => {
       dispatch(deletePost(id))

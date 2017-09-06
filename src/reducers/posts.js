@@ -11,7 +11,7 @@ import {
 const INITIAL_STATE = {
   activePost: {},
   posts: [],
-  comments: []
+  comments: {}
 }
 export const posts = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -62,12 +62,22 @@ export const posts = (state = INITIAL_STATE, action) => {
     case LOAD_ALL_COMMENTS_BY_POST_ID_SUCCESS:
       return {
         ...state,
-        comments: action.comments
+        comments: Object.assign({},
+          action.comments.reduce((accumulator, current) => {
+            accumulator[current.parentId] ? 
+            accumulator[current.parentId] = accumulator[current.parentId].indexOf(current) < 0  ? accumulator[current.parentId].concat([current]) : accumulator[current.parentId]
+            :  accumulator[current.parentId] = [current]
+            
+            return accumulator
+          }, state.comments)
+        )
       }
     case ADD_COMMENT_SUCCESS:
       return {
         ...state,
-        comments: state.comments.concat([action.comment])
+        comments: Object.assign({},...state.comments,{
+          [action.comment.parentId]: state.comments[action.comment.parentId] ? state.comments[action.comment.parentId].concat([action.comment]) : [action.comment]
+          })
       }
     case EDIT_COMMENT_SUCCESS:
       return {
@@ -77,7 +87,8 @@ export const posts = (state = INITIAL_STATE, action) => {
     case DELETE_COMMENT_SUCCESS:
       return {
         ...state,
-        comments: state.comments.filter(comment => comment.id !== action.comment.id)
+        comments: Object.assign({}, ...state.comments, { [action.comment.parentId]: state.comments[action.comment.parentId].filter(data => data.id !== action.comment.id) })
+
       }
     default:
       return state

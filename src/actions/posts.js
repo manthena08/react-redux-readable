@@ -38,7 +38,6 @@ export function deletePost(id) {
     return ReadableAPI.deletePostById(id)
       .then(data => dispatch(deletePostSuccess(id)))
       .catch(error => {
-        console.log(error)
         throw (error)
       })
   }
@@ -93,6 +92,7 @@ export function addComment(comment) {
   return function (dispatch) {
     return ReadableAPI.postComments(comment)
       .then((res) => {
+        console.log("action",res)
         dispatch(addCommentSuccess(res))
       })
   }

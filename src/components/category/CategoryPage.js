@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { Container } from 'semantic-ui-react'
 import { loadCategoryPosts } from '../../actions/categories'
 import SinglePost from '../posts/SinglePost'
+import { voteScore } from '../../actions/posts'
+
 class CategoryPage extends Component {
 
   componentDidMount() {
@@ -35,6 +37,9 @@ const mapDispatchToProps = dispatch => {
   return {
     loadCategoryPostsDispatch: (name) => {
       dispatch(loadCategoryPosts(name))
+    },
+    changeVoteScoreDispatch: (post, status) => {
+      dispatch(voteScore(post, status))
     }
   }
 }
