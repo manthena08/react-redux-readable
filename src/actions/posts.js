@@ -71,11 +71,11 @@ export function commentVoteScore(comment, option) {
   return function (dispatch) {
     return ReadableAPI.callCommentVoteScore(comment.id, option)
       .then(data => {
-        if(data.status === 200){
+        if (data.status === 200) {
           const score = option === 'upVote' ? comment.voteScore + 1 : comment.voteScore - 1
           comment.voteScore = score
           dispatch(commentVoteScoreSuccess(comment))
-        }else{
+        } else {
           throw (data)
         }
       }).catch(error => {
@@ -97,7 +97,7 @@ export function addComment(comment) {
   return function (dispatch) {
     return ReadableAPI.postComments(comment)
       .then((res) => {
-        console.log("action",res)
+        console.log("action", res)
         dispatch(addCommentSuccess(res))
       })
   }
