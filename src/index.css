@@ -14,10 +14,6 @@ body {
     font-size: large;
 }
 
-.category-list {
-    display: flex;
-}
-
 .category-list .ui.card {
     min-height: 200px;
 }
@@ -29,15 +25,35 @@ body {
 }
 
 .category-card-name {
-    color: green;
+    color: white;
 }
 
+.main-categories-section,
+.main-posts-section {
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
 
-/* .card {
-  padding: 20px;
-  display: block;
-  border: 1px solid black;
-} */
+.main-categories-section .react.card .content{
+    background-color:  #02ccba
+}
+
+.main-categories-section .redux.card .content{
+    background-color: #A851ED
+}
+.main-categories-section .udacity.card .content{
+    background-color: #ffae0c
+}
+
+.home-page-post-header {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    margin-bottom: 30px;
+}
+.home-page-post-header h1{
+    margin-bottom: 0;
+}
 
 .single-comment-wrapper {
     padding: 20px;

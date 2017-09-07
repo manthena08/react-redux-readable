@@ -7,7 +7,7 @@ import CommentBox from '../comments/CommentBox'
 import VoteScore from '../common/VoteScore'
 
 import { loadPostById,saveEditedPost, deletePost, voteScore } from '../../actions/posts'
-import { Button, Modal, Input, TextArea, Form, Segment, Container } from 'semantic-ui-react'
+import { Button, Modal, Input, TextArea, Form, Container } from 'semantic-ui-react'
 
 class PostPage extends Component {
   state = {

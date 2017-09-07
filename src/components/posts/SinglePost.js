@@ -19,9 +19,7 @@ class SinglePost extends Component {
           <Card.Header><Link to={`/post/${post.id}`}>{post.title}</Link></Card.Header>
           <Card.Meta>Category: {post.category} </Card.Meta>
           <Card.Meta>Published on: <Moment format="MMM DD YYYY">{post.timestamp}</Moment></Card.Meta>
-          <Card.Description>
-            {post.body}
-          </Card.Description>
+          <Card.Description>{post.body}</Card.Description>
         </Card.Content>
         <Card.Content>
           <Card.Meta>

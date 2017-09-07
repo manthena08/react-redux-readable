@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import sortBy from 'sort-by'
-import { Icon, Card, Divider, Container } from 'semantic-ui-react'
+import { Icon, Card, Container } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { loadPosts, voteScore, loadAllCommentsByPostId } from '../../actions/posts'
 import { loadCategories } from '../../actions/categories'
 import SinglePost from '../posts/SinglePost'
+import CategoryCard from '../category/CategoryCard'
 import OrderDropDown from '../common/OrderDropDown'
 class RootPage extends Component {
   state = {
@@ -33,28 +34,19 @@ class RootPage extends Component {
           <div className="main-categories-section">
             <h1>Categories</h1>
             <div className="category-list">
-              <Card.Group>
+              <Card.Group itemsPerRow={3}>
                 {categories.map((category, index) => (
-                  <Card key={index}>
-                    <Card.Content>
-                      <Card.Header color='green'>
-                        <Link to={`/category/${category.name}`} >
-                          <span className="category-card-name">
-                            {(category.name).toUpperCase()}
-                          </span>
-                        </Link>
-                      </Card.Header>
-                    </Card.Content>
-                  </Card>
+                  <CategoryCard key={index} category={category} />
                 ))}
               </Card.Group>
             </div>
           </div>
-          <Divider />
           <div className="main-posts-section">
-            <h1>Posts</h1>
-            <OrderDropDown defaultValue={this.state.postOrder} sortChange={this.sortHandlerChange} />
-            <Link to={`/create`} ><Icon name='add' /></Link>
+            <div className="home-page-post-header">
+              <h1>Posts</h1>
+              <OrderDropDown defaultValue={this.state.postOrder} sortChange={this.sortHandlerChange} />
+              <Link to={`/create`} ><Icon name='add' /></Link>
+            </div>
 
             <Card.Group>
               {posts.length > 0 && posts.map((post, index) => (

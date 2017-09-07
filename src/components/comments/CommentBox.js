@@ -1,16 +1,11 @@
 import React, { Component } from 'react'
-import Moment from 'react-moment'
 import sortBy from 'sort-by'
 import serializeForm from 'form-serialize'
 import { connect } from 'react-redux'
 import * as uuid from 'react-native-uuid'
-import MdEdit from 'react-icons/lib/md/edit'
-import MdDelete from 'react-icons/lib/md/delete'
-
 import SingleComment from './SingleComment'
-import VoteScore from '../common/VoteScore'
 import { loadAllCommentsByPostId, addComment, deleteComment, editComment, commentVoteScore } from '../../actions/posts'
-import { Button, Modal, Input, TextArea, Form, Segment, Container } from 'semantic-ui-react'
+import { Button, Modal, TextArea, Form } from 'semantic-ui-react'
 
 class CommentBox extends Component {
   state = {
@@ -48,9 +43,8 @@ class CommentBox extends Component {
 
   submitHandler = (e) => {
     e.preventDefault();
-    debugger;
     const value = serializeForm(e.target, { hash: true });
-    value.parentId = this.props.match.params.postId;
+    value.parentId = this.props.postId;
     value.timestamp = Date.now();
     value.voteScore = 1;
     value.id = uuid.v1();
@@ -71,6 +65,12 @@ class CommentBox extends Component {
 
   deleteCommentHandler = (id) => {
     this.props.deleteCommentDispatch(id)
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
   }
 
   render() {

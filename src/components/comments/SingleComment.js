@@ -9,11 +9,12 @@ class SingleComment extends Component {
   handleVoteScore = (id, vote) => {
     this.props.triggerCommentVoteScore(this.props.comment, vote)
   }
+
   render() {
     let { comment } = this.props
     return (
       <div className="single-comment-wrapper" >
-        <Card key={comment.id}>
+        <Card key={comment.id} fluid>
           <Card.Content>
             <Card.Header>{comment.author}</Card.Header>
             <Card.Meta> <Moment format="MMM DD YYYY">{comment.timestamp}</Moment></Card.Meta>
@@ -23,8 +24,6 @@ class SingleComment extends Component {
             <VoteScore handleVoteScore={this.handleVoteScore} commentId={comment.id} score={comment.voteScore}></VoteScore>
           </Card.Content>
           <Card.Content extra>
-            <div>{comment.id}</div>
-            <div>{comment.parentId}</div>
             <div className='ui two buttons'>
               <Button basic color='green' onClick={() => this.props.openEditModal(comment.id)}><MdEdit size={30} /></Button>
               <Button basic color='red' onClick={() => this.props.deleteCommentHandler(comment.id)}><MdDelete size={30} /></Button>
