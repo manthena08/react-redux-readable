@@ -14,7 +14,7 @@ import {
   deleteComment, editComment, saveEditedPost, deletePost, voteScore, commentVoteScore
 } from '../../actions/posts'
 
-import { Button, Modal, Input, TextArea, Form, Segment, Divider, Icon, Container } from 'semantic-ui-react'
+import { Button, Modal, Input, TextArea, Form, Segment, Container } from 'semantic-ui-react'
 
 class PostPage extends Component {
   state = {
@@ -147,7 +147,7 @@ class PostPage extends Component {
               </form>
               {comments && comments.length > 0 && comments.map((comment) => (
                     <SingleComment key={comment.id} comment={comment} openEditModal={this.openEditModal}
-                    deleteCommentHandler={this.deleteCommentHandler} triggerCommentVoteScore={this.changeCommentScoreDispatch} />
+                    deleteCommentHandler={this.deleteCommentHandler} triggerCommentVoteScore={this.props.changeCommentScoreDispatch} />
               ))}
             </div>
           </Segment>

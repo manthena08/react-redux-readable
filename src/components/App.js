@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Route, withRouter } from 'react-router-dom'
-import logo from '../logo.svg';
+import { Route } from 'react-router-dom'
 
 import RootPage from './home/RootPage';
 import CategoryPage from './category/CategoryPage';

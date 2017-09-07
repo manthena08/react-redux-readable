@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 
-import { Button, Icon } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
 class VoteScore extends Component {
 
   changeVoteScore = (status) => {
     const id = this.props.postId ? this.props.postId : this.props.commentId
+    debugger;
     this.props.handleVoteScore(id, status)
   }
 

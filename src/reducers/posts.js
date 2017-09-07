@@ -47,7 +47,9 @@ export const posts = (state = INITIAL_STATE, action) => {
     case COMMENT_VOTE_SCORE:
       return {
         ...state,
-        comments: state.comments.map((data) => data.id === action.comment.id ? action.comment : data)
+        comments: Object.assign({}, state.comments, {
+          [action.comment.parentId]:  state.comments[action.comment.parentId].map(comment => comment.id === action.comment.id ? comment = action.comment : comment)
+        })
       }
     case DELETE_POST:
       return {
@@ -60,35 +62,33 @@ export const posts = (state = INITIAL_STATE, action) => {
         activePost: action.post
       }
     case LOAD_ALL_COMMENTS_BY_POST_ID_SUCCESS:
+      let ChangedActionComments = action.comments.reduce((acc, current) => {
+        acc[current.parentId] ? acc[current.parentId] = acc[current.parentId].concat([current]) : acc[current.parentId] = [current]
+        return acc
+      }, {})
       return {
         ...state,
-        comments: Object.assign({},
-          action.comments.reduce((accumulator, current) => {
-            accumulator[current.parentId] ? 
-            accumulator[current.parentId] = accumulator[current.parentId].indexOf(current) < 0  ? accumulator[current.parentId].concat([current]) : accumulator[current.parentId]
-            :  accumulator[current.parentId] = [current]
-            
-            return accumulator
-          }, state.comments)
-        )
+        comments: Object.assign({}, state.comments, ChangedActionComments)
       }
     case ADD_COMMENT_SUCCESS:
       return {
         ...state,
-        comments: Object.assign({},...state.comments,{
+        comments: Object.assign({}, state.comments, {
           [action.comment.parentId]: state.comments[action.comment.parentId] ? state.comments[action.comment.parentId].concat([action.comment]) : [action.comment]
-          })
+        })
       }
     case EDIT_COMMENT_SUCCESS:
+    debugger
       return {
         ...state,
-        comments: state.comments.map(comment => comment.id === action.comment.id ? comment = action.comment : comment)
+        comments: Object.assign({}, state.comments, {
+          [action.comment.parentId]:  state.comments[action.comment.parentId].map(comment => comment.id === action.comment.id ? comment = action.comment : comment)
+        })
       }
     case DELETE_COMMENT_SUCCESS:
       return {
         ...state,
-        comments: Object.assign({}, ...state.comments, { [action.comment.parentId]: state.comments[action.comment.parentId].filter(data => data.id !== action.comment.id) })
-
+        comments: Object.assign({}, state.comments, { [action.comment.parentId]: state.comments[action.comment.parentId].filter(data => data.id !== action.comment.id) })
       }
     default:
       return state

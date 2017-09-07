@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Moment from 'react-moment'
 import sortBy from 'sort-by'
-import { Icon, Card, Divider, Grid, Container } from 'semantic-ui-react'
+import { Icon, Card, Divider, Container } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { loadPosts, voteScore, loadAllCommentsByPostId } from '../../actions/posts'
 import { loadCategories } from '../../actions/categories'
