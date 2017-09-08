@@ -1,23 +1,20 @@
-import React, { Component } from 'react'
-
+import React from 'react'
 import { Icon } from 'semantic-ui-react'
-class VoteScore extends Component {
+import PropTypes from 'prop-types'
 
-  changeVoteScore = (status) => {
-    const id = this.props.postId ? this.props.postId : this.props.commentId
-    debugger;
-    this.props.handleVoteScore(id, status)
-  }
+const VoteScore = (props) => {
+  return (
+    <div>
+      <Icon color="green" name='thumbs outline up' onClick={() => props.handleVoteScore(props.controlId, 'upVote')} />
+      <span>{props.score}</span>
+      <Icon color="red" name='thumbs outline down' onClick={() => props.handleVoteScore(props.controlId, 'downVote')} />
+    </div>
+  )
+}
 
-  render() {
-    return (
-      <div>
-        <Icon color="green" name='thumbs outline up' onClick={() => this.changeVoteScore('upVote')}/>
-        <span>{this.props.score}</span>
-        <Icon color="red" name='thumbs outline down' onClick={() => this.changeVoteScore('downVote')}/>
-      </div>
-    )
-  }
+VoteScore.propTypes = {
+  score: PropTypes.number.isRequired,
+  handleVoteScore: PropTypes.func.isRequired
 }
 
 export default VoteScore

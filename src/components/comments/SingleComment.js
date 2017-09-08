@@ -21,7 +21,7 @@ class SingleComment extends Component {
             <Card.Description>{comment.body}</Card.Description>
           </Card.Content>
           <Card.Content extra>
-            <VoteScore handleVoteScore={this.handleVoteScore} commentId={comment.id} score={comment.voteScore}></VoteScore>
+            <VoteScore handleVoteScore={this.handleVoteScore} controlId={comment.id} score={comment.voteScore}></VoteScore>
           </Card.Content>
           <Card.Content extra>
             <div className='ui two buttons'>

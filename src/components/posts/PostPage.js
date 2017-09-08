@@ -3,13 +3,22 @@ import Moment from 'react-moment'
 import { connect } from 'react-redux'
 import MdEdit from 'react-icons/lib/md/edit'
 import MdDelete from 'react-icons/lib/md/delete'
+import PropTypes from 'prop-types'
 import CommentBox from '../comments/CommentBox'
 import VoteScore from '../common/VoteScore'
 
-import { loadPostById,saveEditedPost, deletePost, voteScore } from '../../actions/posts'
+import { loadPostById, saveEditedPost, deletePost, voteScore } from '../../actions/posts'
 import { Button, Modal, Input, TextArea, Form, Container } from 'semantic-ui-react'
 
 class PostPage extends Component {
+  static propTypes = {
+    post: PropTypes.object.isRequired,
+    loadPostByIdDispatch: PropTypes.func.isRequired,
+    saveEditedPostDispatch: PropTypes.func.isRequired,
+    changeVoteScoreDispatch: PropTypes.func.isRequired,
+    deletePostDispatch: PropTypes.func.isRequired
+  }
+
   state = {
     postEditModelOpen: false,
     editPostModalTitle: '',
@@ -38,10 +47,11 @@ class PostPage extends Component {
   closeEditPostModal = () => this.setState(() => ({ postEditModelOpen: false }))
 
   saveEditPost = () => {
-    let editPost = this.props.post;
-    editPost.title = this.state.editPostModalTitle
-    editPost.author = this.state.editPostModalAuthor;
-    editPost.body = this.state.editPostModalBody;
+    let editPost = Object.assign({}, this.props.post, {
+      title: this.state.editPostModalTitle,
+      author: this.state.editPostModalAuthor,
+      body: this.state.editPostModalBody
+    });
     this.props.saveEditedPostDispatch(editPost);
     this.closeEditPostModal();
   }
@@ -63,19 +73,20 @@ class PostPage extends Component {
       <div>
         <Container>
           <h2>Post Page</h2>
+          {post ?
           <div className="card">
             <h3>{post.title}</h3>
             <p>{post.author}</p>
             <p>{post.body}</p>
             <Moment format="MMM DD YYYY">{post.timestamp}</Moment>
             <h5>
-              <VoteScore handleVoteScore={this.handleVoteScore} postId={post.id} score={post.voteScore}></VoteScore>
+              <VoteScore handleVoteScore={this.handleVoteScore} postId={post.id} score={post.voteScore || 0}></VoteScore>
             </h5>
             <div className='ui two buttons'>
               <Button basic color='green' onClick={this.openEditPostModal}><MdEdit size={30} /></Button>
               <Button basic color='red' onClick={this.deletePost}><MdDelete size={30} /></Button>
             </div>
-          </div>
+          </div>: ''}
           {post.id ? <CommentBox postId={post.id} /> : ''}
         </Container>
         <Modal size="small" open={this.state.postEditModelOpen} onClose={this.closeEditPostModal} >
