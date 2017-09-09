@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import * as uuid from 'react-native-uuid'
-import serializeForm from 'form-serialize'
 import { connect } from 'react-redux'
 import { Button, Input, TextArea, Form, Container, Icon } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
@@ -18,7 +17,7 @@ class CreatePostPage extends Component {
   }
 
   componentDidMount() {
-    if (this.props.categories.length == 0) {
+    if (this.props.categories.length === 0) {
       this.props.loadCategoriesDispatch();
     }
   }
@@ -34,10 +33,9 @@ class CreatePostPage extends Component {
   }
   // Update the form elements
   handleChange = (e, { name, value }) => {
-    this.setState((prevState, props) => {
-      return Object.assign(prevState.addPostForm, {
-        [name]: value
-      })
+    console.log(this.state)
+    this.setState({
+      addPostForm: Object.assign({},this.state.addPostForm, {[name]: value})
     })
   }
 
@@ -70,7 +68,7 @@ class CreatePostPage extends Component {
               <label>Author</label>
               <Input name="author" type="text" value={author || ''} onChange={this.handleChange} />
             </div>
-            <CategoryDropDown firstValue="" changeCategory={this.handleCategoryChange} categories={this.props.categories}/>
+            <CategoryDropDown selectCategeory={category || ""} changeCategory={this.handleCategoryChange} categories={this.props.categories} />
             <div className="bk-inline-form">
               <label>Body</label>
               <div className="ui input">

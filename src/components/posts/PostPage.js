@@ -28,8 +28,8 @@ class PostPage extends Component {
   }
 
   componentDidMount() {
-    this.props.loadPostByIdDispatch(this.props.match.params.postId)
-    this.props.categories.length == 0 ? this.props.loadCategoriesDispatch() : '' 
+    this.props.loadPostByIdDispatch(this.props.match.params.postId);
+    this.props.categories.length === 0 ? this.props.loadCategoriesDispatch() : '';
   }
 
   deletePost = () => {
@@ -125,7 +125,7 @@ class PostPage extends Component {
                 <label>Author</label>
                 <Input name="editPostModalAuthor" type="text" value={this.state.editPostModalAuthor || ''} onChange={this.handleChange} />
               </div>
-              <CategoryDropDown firstValue={this.props.post.category} changeCategory={this.handleCategoryChange} categories={this.props.categories}/>
+              <CategoryDropDown selectCategeory={this.state.editPostModalCategory || this.props.post.category} changeCategory={this.handleCategoryChange} categories={this.props.categories}/>
               <div className="bk-inline-form">
                 <label>Body</label>
                 <TextArea name="editPostModalBody" type="text" value={this.state.editPostModalBody || ''} onChange={this.handleChange} />
