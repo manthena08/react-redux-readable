@@ -23,7 +23,7 @@ class RootPage extends Component {
   }
 
   state = {
-    postOrder: 'voteScore'
+    postOrder: '-voteScore'
   }
 
   // ajax calls for loading all categories and posts
@@ -60,9 +60,10 @@ class RootPage extends Component {
             <div className="home-page-post-header">
               <h1>Posts</h1>
               <OrderDropDown defaultValue={this.state.postOrder} sortChange={this.sortHandlerChange} />
-              <Link to={`/create`} ><Icon name='add' /></Link>
             </div>
-
+            <div className="add-wrapper">
+              <Link to={`/create`} ><Icon name='add' />ADD NEW POST</Link>
+            </div>
             <Card.Group>
               {posts.length > 0 && posts.map((post) => (
                 <SinglePost key={post.id} post={post} comments={this.props.comments[post.id]}

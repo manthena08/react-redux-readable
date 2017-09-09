@@ -4,11 +4,13 @@ import serializeForm from 'form-serialize'
 import { connect } from 'react-redux'
 import * as uuid from 'react-native-uuid'
 import SingleComment from './SingleComment'
+import OrderDropDown from '../common/OrderDropDown'
 import { loadAllCommentsByPostId, addComment, deleteComment, editComment, commentVoteScore } from '../../actions/posts'
-import { Button, Modal, TextArea, Form } from 'semantic-ui-react'
+import { Button, Modal, TextArea, Form, Icon, Input, Card } from 'semantic-ui-react'
 
 class CommentBox extends Component {
   state = {
+    showNewComment: false,
     commentOrder: '-voteScore',
     commentEditModelOpen: false,
     activeComment: {},
@@ -50,6 +52,7 @@ class CommentBox extends Component {
     value.id = uuid.v1();
     this.props.addCommentDispatch(value);
     this.clearAddCommentForm();
+    this.toggleNewComment()
   }
 
   clearAddCommentForm = () => {
@@ -59,7 +62,7 @@ class CommentBox extends Component {
 
   onOrderChange = (e) => {
     this.setState({
-      commentOrder: e.target.value
+      commentOrder: e
     })
   }
 
@@ -73,6 +76,11 @@ class CommentBox extends Component {
     })
   }
 
+  toggleNewComment = () => {
+    this.setState({
+      showNewComment: !this.state.showNewComment
+    })
+  }
   render() {
     let { comments } = this.props
     if (comments && comments.length > 0) {
@@ -80,27 +88,49 @@ class CommentBox extends Component {
     }
     return (
       <div className="comment-section">
-        <h3> Comment </h3>
-        <select value={this.state.commentOrder} onChange={(event) => this.onOrderChange(event)}>
-          <option value="-timestamp">Date</option>
-          <option value="-voteScore">Score</option>
-        </select>
-        <form onSubmit={this.submitHandler}>
-          <input type="text" name="author" placeholder="comment-name" ref={(input) => this.addAuthor = input} />
-          <textarea name="body" ref={(input) => this.addBody = input}></textarea>
-          <button type="submit"> Comment</button>
-          <button type="button" onClick={this.clearAddCommentForm}> Clear</button>
-        </form>
+        <div className="app-flex app-justify-space">
+          <h2 className="m-0"> Comment </h2>
+          <div className="">
+            <OrderDropDown defaultValue={this.state.commentOrder} sortChange={this.onOrderChange} />
+          </div>
+        </div>
+        <div className="add-wrapper" >
+          <Button basic color='green' onClick={this.toggleNewComment}><Icon name='add' />Add New Comment</Button>
+        </div>
+        {this.state.showNewComment &&
+          <div className="add-comment-container">
+            <h3>Add Comment</h3>
+            <form className="ui form" onSubmit={this.submitHandler} >
+              <div className="bk-inline-form">
+                <label>User</label>
+                <div className="ui input">
+                  <input type="text" name="author" ref={(input) => this.addAuthor = input} />
+                </div>
+              </div>
+              <div className="bk-inline-form">
+                <label>Body</label>
+                <textarea className="textarea" name="body" ref={(input) => this.addBody = input}></textarea>
+              </div>
+              <Button.Group >
+                <Button type="button" onClick={this.clearAddCommentForm}> Clear</Button>
+                <Button.Or />
+                <Button positive type="submit"> Comment</Button>
+              </Button.Group>
+            </form>
+          </div>
+        }
+        <Card.Group>
         {comments && comments.length > 0 && comments.map((comment) => (
           <SingleComment key={comment.id} comment={comment} openEditModal={this.openEditModal}
             deleteCommentHandler={this.deleteCommentHandler} triggerCommentVoteScore={this.props.changeCommentScoreDispatch} />
         ))}
+        </Card.Group>
         <Modal size="small" open={this.state.commentEditModelOpen} onClose={this.closeCommentModal}>
           <Modal.Header>EDIT Comment</Modal.Header>
           <Modal.Content>
             <Form>
               <div className="bk-inline-form">
-                <label>Author Name</label>
+                <label>User</label>
                 <input name="editCommentModalName" type="text" value={this.state.editCommentModalName || ''} onChange={this.handleChange} />
               </div>
               <div className="bk-inline-form">

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Moment from 'react-moment'
 import MdEdit from 'react-icons/lib/md/edit'
 import MdDelete from 'react-icons/lib/md/delete'
-import { Card, Button } from 'semantic-ui-react'
+import { Card, Button, Icon } from 'semantic-ui-react'
 import VoteScore from '../common/VoteScore'
 
 class SingleComment extends Component {
@@ -13,24 +13,21 @@ class SingleComment extends Component {
   render() {
     let { comment } = this.props
     return (
-      <div className="single-comment-wrapper" >
-        <Card key={comment.id} fluid>
+        <Card className="single-comment-wrapper" key={comment.id} fluid>
           <Card.Content>
             <Card.Header>{comment.author}</Card.Header>
             <Card.Meta> <Moment format="MMM DD YYYY">{comment.timestamp}</Moment></Card.Meta>
             <Card.Description>{comment.body}</Card.Description>
           </Card.Content>
-          <Card.Content extra>
-            <VoteScore handleVoteScore={this.handleVoteScore} controlId={comment.id} score={comment.voteScore}></VoteScore>
-          </Card.Content>
-          <Card.Content extra>
-            <div className='ui two buttons'>
-              <Button basic color='green' onClick={() => this.props.openEditModal(comment.id)}><MdEdit size={30} /></Button>
-              <Button basic color='red' onClick={() => this.props.deleteCommentHandler(comment.id)}><MdDelete size={30} /></Button>
+          <Card.Content extra >
+            <VoteScore handleVoteScore={this.handleVoteScore} controlId={comment.id} score={comment.voteScore}></VoteScore> 
+            <div className='ui buttons'>
+              
+              <Button basic color='green' onClick={() => this.props.openEditModal(comment.id)}><Icon name="edit" /></Button>
+              <Button basic color='red' onClick={() => this.props.deleteCommentHandler(comment.id)}><Icon name="delete" /></Button>
             </div>
           </Card.Content>
         </Card>
-      </div>
     )
   }
 }

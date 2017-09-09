@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment'
-import { Card } from 'semantic-ui-react'
+import { Card, Icon } from 'semantic-ui-react'
 import VoteScore from '../common/VoteScore'
 import PropTypes from 'prop-types'
 
@@ -31,13 +31,11 @@ class SinglePost extends Component {
           <Card.Meta>Published on: <Moment format="MMM DD YYYY">{post.timestamp}</Moment></Card.Meta>
           <Card.Description>{post.body}</Card.Description>
         </Card.Content>
-        <Card.Content>
-          <Card.Meta>
-            <VoteScore handleVoteScore={this.handleVoteScore} controlId={post.id} score={post.voteScore}></VoteScore>
-          </Card.Meta>
-        </Card.Content>
         <Card.Content extra>
-          {comments ? comments.length : 0} comments
+          <div className="post-extras">
+            <VoteScore handleVoteScore={this.handleVoteScore} controlId={post.id} score={post.voteScore}></VoteScore>
+            <span className="comment-count"><Icon size='large' name='comments outline'></Icon> {comments ? comments.length : 0} comments </span>
+          </div>
         </Card.Content>
       </Card>
     )

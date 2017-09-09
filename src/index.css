@@ -10,10 +10,24 @@ body {
     color: white;
 }
 
+.App-header h2 {
+    text-align: center;
+}
+
 .App-intro {
     font-size: large;
 }
+.m-0 {
+    margin: 0;
+}
+.app-flex{
+    display: flex;
+    align-items: center;
+}
 
+.app-justify-space{
+    justify-content: space-between;
+}
 .category-list .ui.card {
     min-height: 200px;
 }
@@ -24,57 +38,151 @@ body {
     align-items: center;
 }
 
+.ui.card .header {
+    margin-bottom: 10px;
+}
+
 .category-card-name {
     color: white;
 }
 
 .main-categories-section,
-.main-posts-section {
+.main-posts-section,
+.create-post-page,
+.post-view-post {
     margin-top: 30px;
     margin-bottom: 50px;
 }
 
-.main-categories-section .react.card .content{
-    background-color:  #02ccba
+.main-categories-section .react.card .content {
+    background-color: #02ccba
 }
 
-.main-categories-section .redux.card .content{
+.main-categories-section .redux.card .content {
     background-color: #A851ED
 }
-.main-categories-section .udacity.card .content{
+
+.main-categories-section .udacity.card .content {
     background-color: #ffae0c
 }
 
 .home-page-post-header {
     display: flex;
     justify-content: space-between;
-    align-content: center;
-    margin-bottom: 30px;
+    align-items: center;
+    margin-bottom: 15px;
 }
-.home-page-post-header h1{
+
+.home-page-post-header h1 {
     margin-bottom: 0;
 }
 
-.single-comment-wrapper {
-    padding: 20px;
-}
-
-.single-comment-wrapper .card {
-    margin: 0 auto;
-}
 
 .bk-inline-form {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
 }
-
+.create-post-page .bk-inline-form label {
+    width: 6%;
+}
 .bk-inline-form label {
-    width: 30%;
-    text-align: right;
+    width: 20%;
     margin-right: 15px;
 }
 
-.bk-inline-form .input {
+.bk-inline-form .input,.bk-inline-form .textarea, .bk-inline-form select {
+    width: 70% !important;
+}
+
+.post-extras {
+    display: flex;
+    align-content: center;
+}
+
+.section-vote-score {
+    margin-right: 30px;
+}
+
+.section-vote-score .icon {
+    cursor: pointer
+}
+
+.section-vote-score .down {
+    margin-left: 5px;
+}
+
+.add-wrapper {
+    display: flex;
+    margin-bottom: 15px;
+    justify-content: flex-end;
+}
+
+.create-post-page h1 {
+    margin-bottom: 30px;
+}
+
+.create-page-action-group {
+    width: 56%;
+    margin-top: 30px;
+}
+
+.post-view-title-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.post-view-details {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.post-view-details .icon {
+    flex: 0 0 auto;
+}
+
+.post-view-details .post-view-author-details {
+    flex: 1 1 auto;
+}
+
+.text-lighter {
+    color: rgba(0, 0, 0, .44);
+}
+
+.m-l-5{
+    margin-left: 10px;
+}
+
+.post-view-comments{
+    margin-top: 50px;
+}
+
+.add-comment-container{
+    background-color: #fafafa;
+    padding: 30px;
+}
+
+.add-comment-container .ui.buttons{
+    margin-left: 22.5%;
     width: 50%;
+    margin-top: 15px;
+
+}
+
+@media only screen and (min-width: 1200px) {
+    .post-view-post .container {
+        width: 750px;
+    }
+}
+
+.single-comment-wrapper .extra.content {
+    display: flex;
+    align-items: center;
+}
+
+.back-arrow{
+    margin-right: 10px;
 }

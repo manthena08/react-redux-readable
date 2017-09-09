@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 
 const VoteScore = (props) => {
   return (
-    <div>
-      <Icon color="green" name='thumbs outline up' onClick={() => props.handleVoteScore(props.controlId, 'upVote')} />
+    <div className="section-vote-score">
+      <Icon size="large" color="green" name='thumbs outline up' onClick={() => props.handleVoteScore(props.controlId, 'upVote')} />
       <span>{props.score}</span>
-      <Icon color="red" name='thumbs outline down' onClick={() => props.handleVoteScore(props.controlId, 'downVote')} />
+      <Icon size="large" color="red" name='thumbs outline down' onClick={() => props.handleVoteScore(props.controlId, 'downVote')} />
     </div>
   )
 }

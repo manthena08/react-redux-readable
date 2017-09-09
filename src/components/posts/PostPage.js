@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import Moment from 'react-moment'
 import { connect } from 'react-redux'
-import MdEdit from 'react-icons/lib/md/edit'
-import MdDelete from 'react-icons/lib/md/delete'
 import PropTypes from 'prop-types'
 import CommentBox from '../comments/CommentBox'
 import VoteScore from '../common/VoteScore'
 
 import { loadPostById, saveEditedPost, deletePost, voteScore } from '../../actions/posts'
-import { Button, Modal, Input, TextArea, Form, Container } from 'semantic-ui-react'
+import { loadCategories } from '../../actions/categories'
+import { Button, Modal, Input, TextArea, Form, Container, Icon } from 'semantic-ui-react'
+import CategoryDropDown from '../common/CategoryDropDown'
 
 class PostPage extends Component {
   static propTypes = {
@@ -23,11 +23,13 @@ class PostPage extends Component {
     postEditModelOpen: false,
     editPostModalTitle: '',
     editPostModalAuthor: '',
-    editPostModalBody: ''
+    editPostModalBody: '',
+    editPostModalCategory: ''
   }
 
   componentDidMount() {
     this.props.loadPostByIdDispatch(this.props.match.params.postId)
+    this.props.categories.length == 0 ? this.props.loadCategoriesDispatch() : '' 
   }
 
   deletePost = () => {
@@ -36,11 +38,13 @@ class PostPage extends Component {
   }
 
   openEditPostModal = () => {
+    console.log(this.state)
     this.setState(() => ({
       postEditModelOpen: true,
       editPostModalTitle: this.props.post.title,
       editPostModalAuthor: this.props.post.author,
-      editPostModalBody: this.props.post.body
+      editPostModalBody: this.props.post.body,
+      editPostModalCategory : this.props.post.category
     }))
   }
 
@@ -50,7 +54,8 @@ class PostPage extends Component {
     let editPost = Object.assign({}, this.props.post, {
       title: this.state.editPostModalTitle,
       author: this.state.editPostModalAuthor,
-      body: this.state.editPostModalBody
+      body: this.state.editPostModalBody,
+      category: this.state.editPostModalCategory
     });
     this.props.saveEditedPostDispatch(editPost);
     this.closeEditPostModal();
@@ -62,6 +67,12 @@ class PostPage extends Component {
     })
   }
 
+  handleCategoryChange = (e) => {
+    this.setState({
+      editPostModalCategory: e
+    })
+  }
+
   handleVoteScore = (id, vote) => {
     this.props.changeVoteScoreDispatch(this.props.post, vote)
   }
@@ -70,24 +81,37 @@ class PostPage extends Component {
     let { post } = this.props
 
     return (
-      <div>
+      <div className="post-view-post">
         <Container>
-          <h2>Post Page</h2>
           {post ?
-          <div className="card">
-            <h3>{post.title}</h3>
-            <p>{post.author}</p>
-            <p>{post.body}</p>
-            <Moment format="MMM DD YYYY">{post.timestamp}</Moment>
-            <h5>
-              <VoteScore handleVoteScore={this.handleVoteScore} postId={post.id} score={post.voteScore || 0}></VoteScore>
-            </h5>
-            <div className='ui two buttons'>
-              <Button basic color='green' onClick={this.openEditPostModal}><MdEdit size={30} /></Button>
-              <Button basic color='red' onClick={this.deletePost}><MdDelete size={30} /></Button>
-            </div>
-          </div>: ''}
-          {post.id ? <CommentBox postId={post.id} /> : ''}
+            <div className="post-view-post-details">
+              <div className="post-view-details">
+                <Icon size="big" name="user circle outline" />
+                <div className="post-view-author-details">
+                  <div>{post.author ? post.author.toUpperCase() : ''}</div>
+                  <div className="text-lighter">
+                    Category: {post.category}
+                    <span className="m-l-5"><Moment format="MMM DD YYYY">{post.timestamp}</Moment></span>
+                  </div>
+                </div>
+              </div>
+              <div className="post-view-title-header">
+                <h1>{post.title}</h1>
+
+                <div className='post-action'>
+                  <Icon color="green" size="large" name="edit" onClick={this.openEditPostModal}></Icon>
+                  <Icon color="red" size="large" name="delete" onClick={this.deletePost}></Icon>
+                </div>
+              </div>
+              <p>{post.body}</p>
+              <div>
+                <VoteScore handleVoteScore={this.handleVoteScore} postId={post.id} score={post.voteScore || 0}></VoteScore>
+              </div>
+
+            </div> : ''}
+          <div className="post-view-comments">
+            {post.id ? <CommentBox postId={post.id} /> : ''}
+          </div>
         </Container>
         <Modal size="small" open={this.state.postEditModelOpen} onClose={this.closeEditPostModal} >
           <Modal.Header>EDIT Post</Modal.Header>
@@ -101,6 +125,7 @@ class PostPage extends Component {
                 <label>Author</label>
                 <Input name="editPostModalAuthor" type="text" value={this.state.editPostModalAuthor || ''} onChange={this.handleChange} />
               </div>
+              <CategoryDropDown firstValue={this.props.post.category} changeCategory={this.handleCategoryChange} categories={this.props.categories}/>
               <div className="bk-inline-form">
                 <label>Body</label>
                 <TextArea name="editPostModalBody" type="text" value={this.state.editPostModalBody || ''} onChange={this.handleChange} />
@@ -121,7 +146,8 @@ class PostPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    post: state.posts.activePost
+    post: state.posts.activePost,
+    categories: state.categories.categoriesList
   }
 }
 
@@ -138,7 +164,10 @@ const mapDispatchToProps = dispatch => {
     },
     deletePostDispatch: (id) => {
       dispatch(deletePost(id))
-    }
+    },
+    loadCategoriesDispatch: () => {
+      dispatch(loadCategories())
+    },
   }
 }
 
