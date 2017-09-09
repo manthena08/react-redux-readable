@@ -68,7 +68,9 @@ class CreatePostPage extends Component {
               <label>Author</label>
               <Input name="author" type="text" value={author || ''} onChange={this.handleChange} />
             </div>
-            <CategoryDropDown selectCategeory={category || ""} changeCategory={this.handleCategoryChange} categories={this.props.categories} />
+            {this.props.categories.length > 0 &&
+              <CategoryDropDown selectCategeory={category || ""} changeCategory={this.handleCategoryChange} categories={this.props.categories} />
+            }
             <div className="bk-inline-form">
               <label>Body</label>
               <div className="ui input">

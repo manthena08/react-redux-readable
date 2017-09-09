@@ -6,7 +6,7 @@ import * as uuid from 'react-native-uuid'
 import SingleComment from './SingleComment'
 import OrderDropDown from '../common/OrderDropDown'
 import { loadAllCommentsByPostId, addComment, deleteComment, editComment, commentVoteScore } from '../../actions/posts'
-import { Button, Modal, TextArea, Form, Icon, Input, Card } from 'semantic-ui-react'
+import { Button, Modal, TextArea, Form, Icon, Card } from 'semantic-ui-react'
 
 class CommentBox extends Component {
   state = {

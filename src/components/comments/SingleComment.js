@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import Moment from 'react-moment'
-import MdEdit from 'react-icons/lib/md/edit'
-import MdDelete from 'react-icons/lib/md/delete'
 import { Card, Button, Icon } from 'semantic-ui-react'
 import VoteScore from '../common/VoteScore'
 
