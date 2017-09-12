@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
 import RootPage from './home/RootPage';
 import CategoryPage from './category/CategoryPage';
 import PostPage from './posts/PostPage';
 import CreatePostPage from './posts/CreatePostPage'
-
+import NotFound from './common/NotFound'
 
 class App extends Component {
   render() {
@@ -15,10 +15,13 @@ class App extends Component {
           <h2>Welcome to Readable</h2>
         </div>
         <div className="App-main">
-          <Route exact path="/" component={RootPage} />
-          <Route path="/category/:name" component={CategoryPage} />
-          <Route path="/post/:postId" component={PostPage} />
-          <Route path="/create" component={CreatePostPage} />
+          <Switch>
+            <Route exact path="/" component={RootPage} />
+            <Route exact path="/category/:name" component={CategoryPage} />
+            <Route exact path="/post/:postId" component={PostPage} />
+            <Route exact path="/create" component={CreatePostPage} />
+            <Route component={NotFound} />
+          </Switch>
         </div>
       </div>
     );

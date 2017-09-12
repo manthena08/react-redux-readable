@@ -5,7 +5,8 @@ import {
   ADD_COMMENT_SUCCESS,
   EDIT_COMMENT_SUCCESS,
   DELETE_COMMENT_SUCCESS,
-  SAVE_EDITED_POST_SUCCESS, ADD_NEW_POST, DELETE_POST, VOTE_SCORE, COMMENT_VOTE_SCORE
+  SAVE_EDITED_POST_SUCCESS, ADD_NEW_POST, DELETE_POST, VOTE_SCORE, COMMENT_VOTE_SCORE,
+  NOT_FOUND_ROUTE, CLEAR_ACTIVE_POST
 } from '../actions/actionTypes'
 
 const INITIAL_STATE = {
@@ -15,6 +16,11 @@ const INITIAL_STATE = {
 }
 export const posts = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case NOT_FOUND_ROUTE:
+      return {
+        ...state,
+        activePost: Object.assign({}, { notFound: action.notFound })
+      }
     case LOAD_POST_SUCCESS:
       return {
         ...state,
@@ -48,7 +54,7 @@ export const posts = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         comments: Object.assign({}, state.comments, {
-          [action.comment.parentId]:  state.comments[action.comment.parentId].map(comment => comment.id === action.comment.id ? comment = action.comment : comment)
+          [action.comment.parentId]: state.comments[action.comment.parentId].map(comment => comment.id === action.comment.id ? comment = action.comment : comment)
         })
       }
     case DELETE_POST:
@@ -78,17 +84,22 @@ export const posts = (state = INITIAL_STATE, action) => {
         })
       }
     case EDIT_COMMENT_SUCCESS:
-    debugger
+      debugger
       return {
         ...state,
         comments: Object.assign({}, state.comments, {
-          [action.comment.parentId]:  state.comments[action.comment.parentId].map(comment => comment.id === action.comment.id ? comment = action.comment : comment)
+          [action.comment.parentId]: state.comments[action.comment.parentId].map(comment => comment.id === action.comment.id ? comment = action.comment : comment)
         })
       }
     case DELETE_COMMENT_SUCCESS:
       return {
         ...state,
         comments: Object.assign({}, state.comments, { [action.comment.parentId]: state.comments[action.comment.parentId].filter(data => data.id !== action.comment.id) })
+      }
+    case CLEAR_ACTIVE_POST:
+      return {
+        ...state,
+        activePost: action.post
       }
     default:
       return state

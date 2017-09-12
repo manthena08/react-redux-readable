@@ -12,3 +12,5 @@ export const ADD_NEW_POST = 'ADD_NEW_POST';
 export const DELETE_POST = 'DELETE_POST'
 export const VOTE_SCORE = 'VOTE_SCORE';
 export const COMMENT_VOTE_SCORE = 'COMMENT_VOTE_SCORE'
+export const NOT_FOUND_ROUTE = 'NOT_FOUND_ROUTE'
+export const CLEAR_ACTIVE_POST = 'CLEAR_ACTIVE_POST' 

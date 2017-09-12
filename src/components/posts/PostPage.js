@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import Moment from 'react-moment'
 import { connect } from 'react-redux'
+import {Redirect} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import CommentBox from '../comments/CommentBox'
 import VoteScore from '../common/VoteScore'
 
-import { loadPostById, saveEditedPost, deletePost, voteScore } from '../../actions/posts'
+import { loadPostById, saveEditedPost, deletePost, voteScore, clearActivePost } from '../../actions/posts'
 import { loadCategories } from '../../actions/categories'
 import { Button, Modal, Input, TextArea, Form, Container, Icon } from 'semantic-ui-react'
 import CategoryDropDown from '../common/CategoryDropDown'
@@ -16,7 +17,8 @@ class PostPage extends Component {
     loadPostByIdDispatch: PropTypes.func.isRequired,
     saveEditedPostDispatch: PropTypes.func.isRequired,
     changeVoteScoreDispatch: PropTypes.func.isRequired,
-    deletePostDispatch: PropTypes.func.isRequired
+    deletePostDispatch: PropTypes.func.isRequired,
+    clearActivePostDispatch: PropTypes.func.isRequired
   }
 
   state = {
@@ -34,13 +36,21 @@ class PostPage extends Component {
     }
   }
 
+  // componentWillUpdate() {
+  //   debugger;
+  //    ? this.props.history.push('/notFound') : null
+  // }
+
+  componentWillUnmount() {
+    this.props.clearActivePostDispatch();
+  }
+
   deletePost = () => {
     this.props.deletePostDispatch(this.props.post.id)
     this.props.history.push('/')
   }
 
   openEditPostModal = () => {
-    console.log(this.state)
     this.setState(() => ({
       postEditModelOpen: true,
       editPostModalTitle: this.props.post.title,
@@ -81,7 +91,11 @@ class PostPage extends Component {
 
   render() {
     let { post } = this.props
-
+    if (this.props.post.hasOwnProperty('notFound')) {
+      return (
+        <Redirect to='/notFound'/>
+      )
+    }
     return (
       <div className="post-view-post">
         <Container>
@@ -170,6 +184,9 @@ const mapDispatchToProps = dispatch => {
     loadCategoriesDispatch: () => {
       dispatch(loadCategories())
     },
+    clearActivePostDispatch: () => {
+      dispatch(clearActivePost())
+    }
   }
 }
 

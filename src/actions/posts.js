@@ -16,7 +16,7 @@ export function loadPostById(postId) {
   return function (dispatch) {
     return ReadableAPI.getPostById(postId)
       .then(data => {
-        dispatch(loadPostByIdSuccess(data))
+        Object.keys(data).length > 0 ? dispatch(loadPostByIdSuccess(data)) : dispatch(notFoundRoute('notFound'))
       }).catch(error => {
         throw (error)
       })
@@ -67,7 +67,6 @@ export function voteScore(post, option) {
 }
 
 export function commentVoteScore(comment, option) {
-  debugger
   return function (dispatch) {
     return ReadableAPI.callCommentVoteScore(comment.id, option)
       .then(data => {
@@ -97,7 +96,6 @@ export function addComment(comment) {
   return function (dispatch) {
     return ReadableAPI.postComments(comment)
       .then((res) => {
-        console.log("action", res)
         dispatch(addCommentSuccess(res))
       })
   }
@@ -120,10 +118,11 @@ export function deleteComment(id) {
   }
 }
 
-export function loadPostByIdSuccess(post) {
+export function loadPostByIdSuccess(post,notFound) {
   return {
     type: types.LOAD_POST_BY_ID_SUCCESS,
-    activePost: post
+    activePost: post,
+    notFound : notFound
   }
 }
 
@@ -194,5 +193,19 @@ export function deleteCommentSuccess(comment) {
   return {
     type: types.DELETE_COMMENT_SUCCESS,
     comment
+  }
+}
+
+export function notFoundRoute(notFound) {
+  return {
+    type: types.NOT_FOUND_ROUTE,
+    notFound
+  }
+}
+
+export function clearActivePost() {
+  return {
+    type: types.CLEAR_ACTIVE_POST,
+    post: {}
   }
 }
