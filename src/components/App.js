@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Link } from 'react-router-dom'
 
 import RootPage from './home/RootPage';
 import CategoryPage from './category/CategoryPage';
@@ -12,7 +12,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <h2>Welcome to Readable</h2>
+          <h2><Link to="/">Welcome to Readable</Link></h2>
         </div>
         <div className="App-main">
           <Switch>
