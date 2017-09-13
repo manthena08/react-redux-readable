@@ -1,14 +1,21 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux';
 import sortBy from 'sort-by'
 import serializeForm from 'form-serialize'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import * as uuid from 'react-native-uuid'
 import SingleComment from './SingleComment'
 import OrderDropDown from '../common/OrderDropDown'
-import { loadAllCommentsByPostId, addComment, deleteComment, editComment, commentVoteScore } from '../../actions/posts'
+import * as postActions from '../../actions/posts'
 import { Button, Modal, TextArea, Form, Icon, Card } from 'semantic-ui-react'
 
 class CommentBox extends Component {
+
+  static propTypes = {
+    comments: PropTypes.array,
+    actions: PropTypes.object.isRequired
+  }
   state = {
     showNewComment: false,
     commentOrder: '-voteScore',
@@ -19,7 +26,7 @@ class CommentBox extends Component {
   }
 
   componentDidMount() {
-    this.props.loadAllCommentsByPostIdDispatch(this.props.postId)
+    this.props.actions.loadAllCommentsByPostId(this.props.postId)
   }
 
   openEditModal = (id) => {
@@ -39,7 +46,7 @@ class CommentBox extends Component {
     let editComment = this.state.activeComment;
     editComment.author = this.state.editCommentModalName;
     editComment.body = this.state.editCommentModalBody;
-    this.props.editCommentDispatch(this.state.activeComment)
+    this.props.actions.editComment(this.state.activeComment)
     this.closeCommentModal();
   }
 
@@ -50,7 +57,7 @@ class CommentBox extends Component {
     value.timestamp = Date.now();
     value.voteScore = 1;
     value.id = uuid.v1();
-    this.props.addCommentDispatch(value);
+    this.props.actions.addComment(value);
     this.clearAddCommentForm();
     this.toggleNewComment()
   }
@@ -67,7 +74,7 @@ class CommentBox extends Component {
   }
 
   deleteCommentHandler = (id) => {
-    this.props.deleteCommentDispatch(id)
+    this.props.actions.deleteComment(id)
   }
 
   handleChange = (e) => {
@@ -120,10 +127,10 @@ class CommentBox extends Component {
           </div>
         }
         <Card.Group>
-        {comments && comments.length > 0 && comments.map((comment) => (
-          <SingleComment key={comment.id} comment={comment} openEditModal={this.openEditModal}
-            deleteCommentHandler={this.deleteCommentHandler} triggerCommentVoteScore={this.props.changeCommentScoreDispatch} />
-        ))}
+          {comments && comments.length > 0 && comments.map((comment) => (
+            <SingleComment key={comment.id} comment={comment} openEditModal={this.openEditModal}
+              deleteCommentHandler={this.deleteCommentHandler} triggerCommentVoteScore={this.props.actions.commentVoteScore} />
+          ))}
         </Card.Group>
         <Modal size="small" open={this.state.commentEditModelOpen} onClose={this.closeCommentModal}>
           <Modal.Header>EDIT Comment</Modal.Header>
@@ -150,30 +157,16 @@ class CommentBox extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = ({ posts }, ownProps) => {
   return {
-    comments: state.posts.comments[ownProps.postId]
+    comments: posts.comments[ownProps.postId]
   }
 }
 
 const mapDispatchToProps = dispatch => {
-  return {
-    loadAllCommentsByPostIdDispatch: (id) => {
-      dispatch(loadAllCommentsByPostId(id))
-    },
-    changeCommentScoreDispatch: (comment, status) => {
-      dispatch(commentVoteScore(comment, status))
-    },
-    addCommentDispatch: (comment) => {
-      dispatch(addComment(comment))
-    },
-    editCommentDispatch: (comment) => {
-      dispatch(editComment(comment))
-    },
-    deleteCommentDispatch: (id) => {
-      dispatch(deleteComment(id))
-    }
-  }
+  return ({
+    actions: bindActionCreators(postActions, dispatch)
+  });
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentBox)

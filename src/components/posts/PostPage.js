@@ -31,9 +31,7 @@ class PostPage extends Component {
 
   componentDidMount() {
     this.props.loadPostByIdDispatch(this.props.match.params.postId);
-    if (this.props.categories.length === 0) {
-      this.props.loadCategoriesDispatch()
-    }
+    this.props.categories.length === 0 ? this.props.loadCategoriesDispatch() : null;
   }
 
   // componentWillUpdate() {
