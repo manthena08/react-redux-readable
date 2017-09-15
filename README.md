@@ -44,3 +44,6 @@ for you to use with your app.
 
 ## How to Use
 This application has a main root pages which is displayed with all the categories aviable and all the posts. When clicked on specific category or post it will take you to that specific page. Play around by adding deleting posts or comments.
+
+## API 
+Clone https://github.com/manthena08/react-readable-api.git project which serves as the backend for this application.
